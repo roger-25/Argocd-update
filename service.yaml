@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: version-update-minikube
+spec:
+  selector:
+    app: kickstart   
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80   
+  type: ClusterIP

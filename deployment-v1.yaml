@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: version-update-minikube
+  labels:
+    app: kickstart
+spec:                           
+  replicas: 3
+  selector:
+    matchLabels:
+      app: kickstart
+  template:
+    metadata:
+      labels:
+        app: kickstart
+    spec:
+      containers:
+      - name: kickstart
+        image: kickstart:v1
+        ports:
+        - containerPort: 80
