@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: version-update-minikube
 spec:                           
-  replicas: 3
+  replicas: 2
   selector:
     matchLabels:
       app: kickstart
@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
       - name: kickstart
-        image: devopsroger25/version-update:v1
+        image: kickstart:v1
         ports:
         - containerPort: 80
