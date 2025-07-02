@@ -4,9 +4,11 @@ metadata:
   name: version-update-minikube
 spec:
   selector:
-    app: kickstart   
+    app: kickstart
+    version: blue
   ports:
     - protocol: TCP
       port: 80
       targetPort: 80   
   type: ClusterIP
+  

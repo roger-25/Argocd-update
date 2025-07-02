@@ -2,20 +2,20 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: version-update-minikube
-  labels:
-    app: kickstart
 spec:                           
   replicas: 3
   selector:
     matchLabels:
       app: kickstart
+      version: green
   template:
     metadata:
       labels:
         app: kickstart
+        version: green
     spec:
       containers:
       - name: kickstart
-        image: kickstart:v1
+        image: devopsroger25/version-update:v2
         ports:
         - containerPort: 80
