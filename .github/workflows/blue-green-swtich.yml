@@ -1,0 +1,38 @@
+name: Blue-Green Switch
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Which version to switch traffic to?"
+        required: true
+        default: green
+        type: choice
+        options:
+          - blue
+          - green
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Set up kubeconfig
+        run: |
+          mkdir -p ~/.kube
+          echo "${{ secrets.KUBECONFIG }}" > ~/.kube/config
+
+      - name: Deploy selected version
+        run: kubectl apply -f k8s/deployment-${{ github.event.inputs.version }}.yaml
+
+      - name: Update service to point to selected version
+        run: |
+          cp k8s/service.yaml service-temp.yaml
+          sed -i "s/version:.*/version: ${{ github.event.inputs.version }}/" service-temp.yaml
+          kubectl apply -f service-temp.yaml
+
+      - name: Check service routing
+        run: kubectl get svc customer-app-service -o wide
